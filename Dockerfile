@@ -9,6 +9,24 @@
 ###########
 # Keep this port exposed to simplify the acceptance test.
 # Make sure your implementation works on this port.
-EXPOSE 3000
+# EXPOSE 3000
 
 #CMD ["node", "src/app.js"]
+
+# syntax=docker/dockerfile:1
+
+FROM golang:1.17-alpine
+
+WORKDIR /app
+
+COPY go.mod ./
+COPY go.sum ./
+RUN go mod download
+
+COPY *.go ./
+
+RUN go build -o /docker-gs-ping
+
+EXPOSE 3000
+
+CMD [ "/docker-gs-ping" ]
