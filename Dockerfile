@@ -24,7 +24,6 @@ COPY go.sum ./
 RUN go mod download
 
 COPY cmd/ ./
-COPY pkg/ ./
 
 RUN go build -o /docker-gs-ping
 
