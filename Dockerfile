@@ -21,9 +21,10 @@ WORKDIR /app
 
 COPY go.mod ./
 COPY go.sum ./
+
 RUN go mod download
 
-COPY cmd/ ./
+COPY *.go ./
 
 RUN go build -o /docker-gs-ping
 
