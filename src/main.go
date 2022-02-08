@@ -33,7 +33,7 @@ func main() {
 	router.POST("/project", postProject)
 	router.POST("/completed", postCompleted)
 	router.POST("/assigned", postAssigned)
-	router.Run("localhost:3000")
+	router.Run(":3000")
 }
 
 func getStatus(c *gin.Context) {

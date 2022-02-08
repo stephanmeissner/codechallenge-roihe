@@ -1,33 +1,28 @@
-﻿##########
-## This is an example if you would use node.js to solve the challenge.
-#FROM node:10-alpine
-#WORKDIR /usr/src/app
-#COPY package*.json ./
-#RUN npm install
-#COPY . .
+﻿
+ARG GO_VERSION=1.17
 
-###########
-# Keep this port exposed to simplify the acceptance test.
-# Make sure your implementation works on this port.
-# EXPOSE 3000
+FROM golang:${GO_VERSION}-alpine AS builder
 
-#CMD ["node", "src/app.js"]
+RUN apk update && apk add alpine-sdk git && rm -rf /var/cache/apk/*
 
-# syntax=docker/dockerfile:1
+RUN mkdir -p /api
+WORKDIR /api
 
-FROM golang:1.17-alpine
-
-WORKDIR /app
-
-COPY go.mod ./
-COPY go.sum ./
-
+COPY go.mod .
+COPY go.sum .
 RUN go mod download
 
-COPY *.go ./
+COPY . .
+RUN go build -o ./app ./src/main.go
 
-RUN go build -o /docker-gs-ping
+FROM alpine:latest
+
+RUN apk update && apk add ca-certificates && rm -rf /var/cache/apk/*
+
+RUN mkdir -p /api
+WORKDIR /api
+COPY --from=builder /api/app .
 
 EXPOSE 3000
 
-CMD [ "/docker-gs-ping" ]
+ENTRYPOINT ["./app"]
