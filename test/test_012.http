@@ -1,0 +1,5 @@
+ # should init with new teams
+POST http://localhost:3000/completed
+content-type: application/json
+
+{"ID":2}

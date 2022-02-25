@@ -1,0 +1,5 @@
+ # should init with new teams
+PUT http://localhost:3000/teams
+content-type: application/json
+
+[{"id":1,"developers":5},{"id":3,"developers":4}]

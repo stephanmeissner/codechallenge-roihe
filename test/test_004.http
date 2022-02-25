@@ -1,7 +1,5 @@
+ # should init with new teams
 POST http://localhost:3000/project
 content-type: application/json
 
-{
-	"id": 1,
-	"devs_needed": 5
-}
+{"id":1,"devs_needed":2}
